@@ -35,9 +35,12 @@ public class PlayerController : MonoBehaviour
     // Specific Movement Components
     private float horizontalInput;
     private float verticalInput;
+
+    // Specific Claw Components
     private bool shouldRetractClaw;
     private bool shouldDropClaw;
     private bool shouldUseClaw;
+    private bool clawActive;
 
     private void Awake()
     {
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.positionCount = 2;
         clawObject = transform.GetChild(0).gameObject;
+        clawActive = false;
     }
 
     // Update is called once per frame
@@ -125,4 +129,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Claw object not detected");
         }
     }
+
+    
 }
