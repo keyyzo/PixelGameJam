@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rubbish
   - Fish
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Rubbish
+  - Walls
   - 
   - 
   - 

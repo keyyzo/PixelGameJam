@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider2D capsuleCollider;
     private PlayerInputHandler playerInputHandler;
     private LineRenderer lineRenderer;
+    private SpriteRenderer spriteRenderer;
 
     // Specific Movement Components
     private float horizontalInput;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         lineRenderer = GetComponent<LineRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
@@ -68,6 +70,11 @@ public class PlayerController : MonoBehaviour
         shouldRetractClaw = playerInputHandler.RetractClawTriggered;
         shouldDropClaw = playerInputHandler.DropClawTriggered;
         shouldUseClaw = playerInputHandler.UseClawTriggered;
+
+        if (horizontalInput != 0)
+        { 
+            FlipSprite(horizontalInput);
+        }
     }
 
     private void FixedUpdate()
@@ -94,7 +101,9 @@ public class PlayerController : MonoBehaviour
 
     void DisplayClawLine()
     {
-        lineRenderer.SetPosition(0, transform.position);
+        Vector3 offSet = new Vector3(0.04f, -0.25f,0.0f);
+
+        lineRenderer.SetPosition(0, transform.position + offSet);
         lineRenderer.SetPosition(1,transform.GetChild(0).transform.position);
     }
 
@@ -130,5 +139,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    private void FlipSprite(float horizontalMovement)
+    {
+        if (horizontalMovement < 0)
+        {
+           // transform.localScale = new Vector3(-1, 1, 1);
+            spriteRenderer.flipX = true;
+        }
+
+        else if (horizontalMovement > 0)
+        {
+           // transform.localScale = new Vector3(1, 1, 1);
+            spriteRenderer.flipX = false;
+        }
+    }
+
+
 }
