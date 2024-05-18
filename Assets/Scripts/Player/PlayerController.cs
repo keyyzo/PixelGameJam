@@ -65,23 +65,33 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = playerInputHandler.MoveInput.x;
-        verticalInput = playerInputHandler.MoveInput.y;
-        shouldRetractClaw = playerInputHandler.RetractClawTriggered;
-        shouldDropClaw = playerInputHandler.DropClawTriggered;
-        shouldUseClaw = playerInputHandler.UseClawTriggered;
+        if (GameManager.Instance.state == GameState.ReadyLevel)
+        {
+            rb.gravityScale = 0.0f;
+            clawObject.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
 
-        if (horizontalInput != 0)
-        { 
-            FlipSprite(horizontalInput);
+        }
+
+        if (GameManager.Instance.state == GameState.LevelInProgress)
+        {
+            rb.gravityScale = waterGravValue;
+            clawObject.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            InputCallHandler();
         }
     }
 
+        
+
     private void FixedUpdate()
     {
-        ApplyMovement();
-        DisplayClawLine();
-        PositionClaw();
+        if (GameManager.Instance.state == GameState.LevelInProgress)
+        {
+            ApplyMovement();
+            DisplayClawLine();
+            PositionClaw();
+        }
+
+            
     }
 
     void ApplyMovement()
@@ -154,5 +164,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void InputCallHandler()
+    {
+        horizontalInput = playerInputHandler.MoveInput.x;
+        verticalInput = playerInputHandler.MoveInput.y;
+        shouldRetractClaw = playerInputHandler.RetractClawTriggered;
+        shouldDropClaw = playerInputHandler.DropClawTriggered;
+        shouldUseClaw = playerInputHandler.UseClawTriggered;
+
+        if (horizontalInput != 0)
+        {
+            FlipSprite(horizontalInput);
+        }
+    }
 
 }

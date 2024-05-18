@@ -38,8 +38,13 @@ public class ClawLogic : MonoBehaviour
 
             if (collision.gameObject.CompareTag("Rubbish") && shouldUseClaw)
             {
+                int addScore = collision.gameObject.GetComponent<RubbishLogic>().GetScore();
+               
+                
+                GameManager.Instance.AddScore(addScore);
                 Destroy(collision.gameObject);
-                GameManager.Instance.AddScore(2);
+
+               
             }
         }
     }
