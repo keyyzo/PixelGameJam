@@ -36,7 +36,7 @@ public class ClawLogic : MonoBehaviour
         {
             Debug.Log("Something has been hit");
 
-            if (collision.gameObject.CompareTag("Rubbish") && shouldUseClaw)
+            if (collision.gameObject.CompareTag("Rubbish"))
             {
                 int addScore = collision.gameObject.GetComponent<RubbishLogic>().GetScore();
                

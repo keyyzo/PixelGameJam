@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI rubbishText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI countdownText;
 
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     float countdownTimer = 3.0f;
     float tempTimer = 0.0f;
     bool startCountdown = false;
+
+    private int numOfRubbish;
 
     private void Awake()
     {
@@ -47,6 +50,13 @@ public class GameManager : MonoBehaviour
 
         scoreText.text = "Score: " + score.ToString();
         
+
+        GameObject[] allRubbishInScene = GameObject.FindGameObjectsWithTag("Rubbish");
+
+        numOfRubbish = allRubbishInScene.Length;
+
+        rubbishText.text = numOfRubbish.ToString() + " : Rubbish Left";
+
     }
 
     private void Update()
@@ -141,6 +151,11 @@ public class GameManager : MonoBehaviour
     private void HandleLevelInProgress() 
     {
         UpdateTimer();
+
+        if (numOfRubbish == 0)
+        {
+            UpdateGameState(GameState.LevelFinished);
+        }
     }
 
     private void HandleRating() 
@@ -150,7 +165,9 @@ public class GameManager : MonoBehaviour
 
     private void HandleLevelFinished() 
     {
-    
+        
+        countdownText.text = "Finished!";
+        countdownText.enabled = true;
     }
 
 
@@ -158,6 +175,8 @@ public class GameManager : MonoBehaviour
     {
         score += scoreToAdd;
         scoreText.text = "Score: " + score.ToString();
+        numOfRubbish -= 1;
+        rubbishText.text = numOfRubbish.ToString() + " : Rubbish Left";
     }
 
     private void UpdateTimer()

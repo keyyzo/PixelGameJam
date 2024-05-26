@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInputHandler playerInputHandler;
     private LineRenderer lineRenderer;
     private SpriteRenderer spriteRenderer;
+    private ParticleSystem particleSystem;
 
     // Specific Movement Components
     private float horizontalInput;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         lineRenderer = GetComponent<LineRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        particleSystem = GetComponent<ParticleSystem>();
     }
 
     void Start()
@@ -151,16 +154,21 @@ public class PlayerController : MonoBehaviour
 
     private void FlipSprite(float horizontalMovement)
     {
+        var particleShape = particleSystem.shape;
+
         if (horizontalMovement < 0)
         {
            // transform.localScale = new Vector3(-1, 1, 1);
             spriteRenderer.flipX = true;
+            particleShape.position = new Vector3(0.48f, -0.21f, 1);
+            
         }
 
         else if (horizontalMovement > 0)
         {
            // transform.localScale = new Vector3(1, 1, 1);
             spriteRenderer.flipX = false;
+            particleShape.position = new Vector3(-0.48f, -0.21f, 1);
         }
     }
 
